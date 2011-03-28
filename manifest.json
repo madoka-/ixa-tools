@@ -1,0 +1,19 @@
+{
+	"name": "IXA Tools",
+	"version": "0.3",
+	"description": "戦国IXAを使いやすくする為のツール",
+	"permissions": [
+		"tabs",
+		"http://*.sengokuixa.jp/*"
+	],
+	"icons": {
+		"128": "images/favicon128.png"
+	},
+	"page_action": {
+		"default_icon": "images/favicon128.png",
+		"default_title": "IXA Tools",
+		"popup": "html/popup.html"
+	},
+	"options_page": "html/options.html",
+	"background_page": "html/background.html"
+}
