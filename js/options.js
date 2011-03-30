@@ -2,9 +2,8 @@
 // backgroundのDOMを読み込んで現在の設定を確認後、htmlを生成する
 //
 // todo
-// selectとcheckboxの保存を　151行から
-// 54行のif文に設定からselectedを選ばせる記述を
-// エラーが出てるのでfixする
+// def_kind_soldier当たりのhtmlやcssのブラッシュアップ
+// できればただのオプションの羅列では無くタブメニューっぽい構成に
 var bg = chrome.extension.getBackgroundPage();
 var co = bg.conf;
 
@@ -52,16 +51,16 @@ function restore_options() {
 				}
 			break;
 			case 'sol':
-				if(i == 'def_num_soldier'){
+				if (i == 'def_num_soldier') {
 					html += '<div class="op_caption">'+co['option'][i]['caption']+'</div><div class="op_input">';
 					html += '<select name="def_num_soldier" size="1">';
-					html += '<option value="100">100</option>';
-					html += '<option value="200">200</option>';
-					html += '<option value="300">300</option>';
-					html += '<option value="500">500</option>';
-					html += '<option value="1000">1000</option>';
+					html += (co['option'][i]['value'] == '100') ? '<option value="100" selected="selected">100</option>' : '<option value="100">100</option>';
+					html += (co['option'][i]['value'] == '200') ? '<option value="200" selected="selected">200</option>' : '<option value="200">200</option>';
+					html += (co['option'][i]['value'] == '300') ? '<option value="300" selected="selected">300</option>' : '<option value="300">300</option>';
+					html += (co['option'][i]['value'] == '500') ? '<option value="500" selected="selected">500</option>' : '<option value="500">500</option>';
+					html += (co['option'][i]['value'] == '1000') ? '<option value="1000" selected="selected">1000</option>' : '<option value="1000">1000</option>';
 					html += '</select></div>';
-				} else if(i == 'def_kind_soldier') {
+				} else if (i == 'def_kind_soldier') {
 					var sol_list = {
 						s1: '足軽',
 						s2: '長槍足軽',
@@ -78,7 +77,7 @@ function restore_options() {
 						w2: '攻城櫓',
 						w3: '大筒兵'
 					};
-					// {"1":false,"2":true,"3":false,"4":false,"5":true,"6":false,"7":false,"8":true,"9":false,"10":true,"11":false,"12":false,"13":true,"14":false} - 1
+					// {"s1":false,"s2":true,"s3":false,"b1":false,"b2":true,"b3":false,"h1":false,"h2":true,"h3":false,"g1":true,"g2":false,"w1":false,"w2":true,"w3":false}
 					html += '<div class="op_caption">'+co['option'][i]['caption']+'<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;</div><div class="op_input">';
 					var s = co['option']['def_kind_soldier']['value'];
 					for (var k in sol_list)  {
@@ -150,17 +149,31 @@ function init_option(){
 $(document).ready(function(){
 	restore_options();
 	// 設定が変わるたびに保存する
-	$("form").change(function(e){
-		if(e.target){
+	$('form').change(function(e){
+		if(e.target && e.target.value){
 			if (e.target.name == 'def_kind_soldier') {
-				// チェックの有無を確認後valueの項目を変更
-				//e.target.value;
+				// {"s1":false,"s2":true,"s3":false,"b1":false,"b2":true,"b3":false,"h1":false,"h2":true,"h3":false,"g1":true,"g2":false,"w1":false,"w2":true,"w3":false}
+				// チェックの有無を確認後co['option']['def_kind_soldier']['value']の項目を変更
+				// e.target.value; e.target.checked;
+				var s = co.option.def_kind_soldier.value;
+				var n = {};
+				for (var i in s) {
+					if (e.target.value == i) {
+						if (e.target.checked == true) {
+							n[i] = "true";
+						} else {
+							n[i] = "false";
+						}
+					} else {
+						n[i] = s[i];
+					}
+				}
+				co.setOption("def_kind_soldier", n);
 			} else {
 				co.setOption(e.target.name, e.target.value);
 			}
 			chrome.extension.sendRequest({name: "set_end"});
 		}
-		console.log(e);
 	}).trigger("change");
 });
-//console.log(co.option);
+//console.log(co);

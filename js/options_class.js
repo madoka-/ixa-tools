@@ -17,7 +17,8 @@ var OPVERSION = "2";
 // options class
 function options(){
 	// 現在の設定を保持するプロパティ
-	this.option = {// JSONでやりとりするのでJSON表記
+	this.option = {// JSONでやりとりするのでJSON表記 シングルクォートはNG
+		// option_name: {tag: "type", caption: "text", default: "defaultvalue", value: "value"}
 		version: {tag: "hidden", caption: "オプション項目のバージョン", default: OPVERSION, value: "1"},
 		inside_attack_view: {tag: "all", caption: "敵襲ランプを表示", default: "true", value: null},
 		tohankaku: {tag: "all", caption: "あらゆる入力欄で全角数字を半角に強制変換", default: "true", value: null},
