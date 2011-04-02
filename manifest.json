@@ -17,6 +17,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*.sengokuixa.jp/*"],
+			"css": ["html/common.css"],
 			"js": ["js/jquery.js", "js/common.js"],
 			"run_at": "document_end"
 		}
