@@ -18,7 +18,12 @@
 		{
 			"matches": ["http://*.sengokuixa.jp/*"],
 			"css": ["html/common.css"],
-			"js": ["js/jquery.js", "js/common.js"],
+			"js": ["js/jquery.js", "js/common.js", "js/sidebox.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/facility/set_unit_list.php*"],
+			"js": ["js/set_unit_list.js"],
 			"run_at": "document_end"
 		}
 	],

@@ -2,11 +2,18 @@
 // 毎回読み込むスクリプトなので最小限にとどめる
 //
 // todo
-// scriptでやるよりcssでやる方がよさげ
+//
 
 // onload
-/*$(document).ready(function(){
-	// コンテキストのHTMLやCSSを操作
-	// body{font-size:12px;margin:0;padding:0;line-height:1.5;font-family:"ＭＳ Ｐ明朝","細明朝体","ヒラギノ明朝 Pro W3";}
-	$('body, p, a, textarea, input, select').css('font-family', 'Meiryo, "メイリオ", "Hiragino Kaku Gothic Pro", "MS PGothic", "ＭＳ Ｐゴシック", "Osaka", helvetica, sans-serif');
-});*/
+$(document).ready(function() {
+	// 全角数字→半角数字
+	$('INPUT[type="text"]').change(function(e) {
+		var $this = $(this);
+		$this.val(function () {
+			var str = $this.val();
+			str = str.replace(/[０-９]/g, function(str){return String.fromCharCode(str.charCodeAt(0)-65248);});
+			str = str.replace(/[ー|－](\d+)/g, '-$1');
+			return str;
+		});
+	});
+});
