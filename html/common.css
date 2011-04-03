@@ -1,4 +1,24 @@
 @charset "utf-8";
-body, p, a, textarea, input, select {
+body, p, a, textarea, input, select div {
 	font-family: Meiryo, "メイリオ", "Hiragino Kaku Gothic Pro", "MS PGothic", "ＭＳ Ｐゴシック", "Osaka", helvetica, sans-serif !important;
+	
+}
+
+#sidebar div.sideBoxInner.basename {
+	color: #e2e2e2 !important;
+}
+
+#sidebar div.sideBoxInner.basename a {
+	font-size: 10px;
+	text-decoration: none;
+}
+
+a:hover, a:active {
+	color: #cccccc !important;
+}
+
+#sidebar div.sideBoxInner.basename ul li.on {
+	font-family: Meiryo, "メイリオ", "Hiragino Kaku Gothic Pro", "MS PGothic", "ＭＳ Ｐゴシック", "Osaka", helvetica, sans-serif !important;
+	color: #aaa !important;
+	font-size: 10px;
 }
