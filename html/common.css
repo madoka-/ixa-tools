@@ -1,5 +1,5 @@
 @charset "utf-8";
-body, p, a, textarea, input, select div {
+* {
 	font-family: Meiryo, "メイリオ", "Hiragino Kaku Gothic Pro", "MS PGothic", "ＭＳ Ｐゴシック", "Osaka", helvetica, sans-serif !important;
 	
 }
@@ -18,7 +18,6 @@ a:hover, a:active {
 }
 
 #sidebar div.sideBoxInner.basename ul li.on {
-	font-family: Meiryo, "メイリオ", "Hiragino Kaku Gothic Pro", "MS PGothic", "ＭＳ Ｐゴシック", "Osaka", helvetica, sans-serif !important;
 	color: #aaa !important;
 	font-size: 10px;
 }
