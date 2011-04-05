@@ -23,7 +23,18 @@
 		},
 		{
 			"matches": ["http://*.sengokuixa.jp/facility/set_unit_list.php*"],
+			"css": ["html/facility.css"],
 			"js": ["js/set_unit_list.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/facility/facility.php*"],
+			"js": ["js/facility.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/war/*"],
+			"css": ["html/war.css"],
 			"run_at": "document_end"
 		}
 	],

@@ -5,9 +5,14 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 		chrome.pageAction.show(tabId);
 	}
 }
-// optionsからメッセージを受け取る
-function chenge_option(){
-	var state;
-}
+// options要求メッセージを受け取り送り返す
+chrome.extension.onRequest.addListener(
+	function(request, sender, sendResponse) {
+		if (request.option) {
+			var res = conf.option[request.option].value;
+		}
+		sendResponse({option: res});
+	}
+);
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
