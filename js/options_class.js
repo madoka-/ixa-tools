@@ -13,7 +13,7 @@
 // バージョンアップした場合等、optionの内容が変わった際の対応をする(設定値のverの保管や変更マージ等)
 
 // オプション項目のバージョン
-var OPVERSION = "2";
+var OPVERSION = "3";
 // options class
 function options(){
 	// 現在の設定を保持するプロパティ
@@ -50,7 +50,6 @@ function options(){
 		non_back: {tag: "faci", caption: "所領の復活ボタンを非表示", default: "true", value: null}, //適用を村のみ(耐久力2万未満とか)にする
 		map_potential: {tag: "faci", caption: "空地戦力を表示", default: "true", value: null},
 		facility_maxsoldier: {tag: "sol", caption: "各兵生産施設で最大作成可能兵数リンク設置", default: "true", value: null},
-		def_show_soldier: {tag: "sol", caption: "デフォルト以外の兵種を表示", default: "false", value: null},// デフォルトの兵種以外表示しない
 		def_num_soldier: {tag: "sol", caption: "デフォルトの訓練数", default: "100", value: null},
 		def_kind_soldier: {tag: "sol", caption: "デフォルトの兵種", default: {"s1":"false","s2":"true","s3":"false","b1":"false","b2":"true","b3":"false","h1":"false","h2":"true","h3":"false","g1":"true","g2":"false","w1":"false","w2":"true","w3":"false"}, value: null}
 	};
@@ -58,7 +57,6 @@ function options(){
 	// 毎回確認してもいいかも
 	this.war = 'false';
 	// 自領のvillage_id及び名前を保管するオブジェクト
-	// 鯖別に保存する
 	this.vid = {};
 	// メソッドの定義
 	this.setOption = function(name, value){

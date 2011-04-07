@@ -1,18 +1,13 @@
 // 施設ごとの処理
-
-// outerHTML
-jQuery.fn.outerHTML = function(s) {
-	return (s)
-	? this.before(s).remove()
-	: jQuery("<p>").append(this.eq(0).clone()).html();
-}
+// sendRequestに対するレスポンスが遅いので仕方なくsetTimeoutを使っている
 
 // bgのオプション
 var op;
 chrome.extension.sendRequest({option: 'def_kind_soldier'}, function(response) {
 	op = response.option;
 });
-$(document).ready(function(){
+
+$(document).ready(setTimeout( function(){
 	// 施設名を調べる
 	var name = $('div.ig_tilesection_detailarea > H3:eq(0) > A').text();
 	// 訓練施設
@@ -34,7 +29,7 @@ $(document).ready(function(){
 		}
 		$('div.ig_tilesection_mid:eq(1)').html(html);
 	}
-});
+}, 1000));
 
 function change_facility_html(op, type) {
 	var html = {};
@@ -147,4 +142,11 @@ function change_facility_html(op, type) {
 			break;
 	}
 	return content;
+}
+
+// outerHTML
+jQuery.fn.outerHTML = function(s) {
+	return (s)
+	? this.before(s).remove()
+	: jQuery("<p>").append(this.eq(0).clone()).html();
 }
