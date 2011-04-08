@@ -22,17 +22,15 @@ function options(){
 		version: {tag: "hidden", caption: "オプション項目のバージョン", default: OPVERSION, value: "1"},
 		inside_attack_view: {tag: "all", caption: "敵襲ランプを表示", default: "true", value: null},
 		tohankaku: {tag: "all", caption: "あらゆる入力欄で全角数字を半角に強制変換", default: "true", value: null},
-		//sidebox_change: {tag: 'all', caption: '合戦向けサイドメニュー表示'},  強制ONにする
-		//timeout_countdown: {tag: 'all', caption: 'タイムアウト予想時間カウントダウン'}, 強制ONにする
+		//timeout_countdown: {tag: 'all', caption: 'タイムアウト予想時間カウントダウン'}, 強制ON ポップアップ等に表示
 		pulldown_menu: {tag: "all", caption: "メニューのプルダウン化", default: "false", value: null},
-		//いらねえnon_cardview: {tag: 'all', caption: 'サイドメニューのカードを非表示'},
 		//chat_mikire: {tag: 'chat', caption: 'チャットの見切れを修正'}, 強制ONにする
 		//chat_linkchg: {tag: 'chat', caption: '「チャット履歴」のリンク先修正'},強制ONにする
-		toubatsu: {tag: "deck", caption: "討伐ゲージ時間表示", default: "true", value: null},
+		toubatsu: {tag: "deck", caption: "討伐ゲージの残り時間表示", default: "true", value: null},
 		refillhp: {tag: "deck", caption: "HP回復時間表示", default: "true", value: null},
-		pager_ajax: {tag: "deck", caption: "ページャーをAjaxに", default: "true", value: null},
+		pager_ajax: {tag: "deck", caption: "ページャーをAjaxに", default: "false", value: null},
 		def_honjou: {tag: "deck", caption: "拠点選択のデフォを本城に", default: "1", value: null}, // 1平時ON合戦時にOFF 2常にON 3常にOFF
-		rank_lock: {tag: "deck", caption: "特以上のカードの一括削除を非活性化", default: "true", value: null},
+		rank_lock: {tag: "deck", caption: "一括削除は序だけに適用する", default: "true", value: null},
 		hikyou:   {tag: "dungeon", caption: "部隊の自動選択", default: "true", value: null},
 		hikyou_img_hide:   {tag: "dungeon", caption: "秘境の画像を表示しない", default: "false", value: null},
 		map_reg: {tag: "map", caption: "座標記録リスト表示", default: "true", value: null},
@@ -49,8 +47,7 @@ function options(){
 		market_hide: {tag: "faci", caption: "市の施設情報を隠す", default: "false", value: null},
 		non_back: {tag: "faci", caption: "所領の復活ボタンを非表示", default: "true", value: null}, //適用を村のみ(耐久力2万未満とか)にする
 		map_potential: {tag: "faci", caption: "空地戦力を表示", default: "true", value: null},
-		facility_maxsoldier: {tag: "sol", caption: "各兵生産施設で最大作成可能兵数リンク設置", default: "true", value: null},
-		def_num_soldier: {tag: "sol", caption: "デフォルトの訓練数", default: "100", value: null},
+		//facility_maxsoldier: {tag: "sol", caption: "各兵生産施設で最大作成可能兵数リンク設置", default: "true", value: null}, デフォ
 		def_kind_soldier: {tag: "sol", caption: "デフォルトの兵種", default: {"s1":"false","s2":"true","s3":"false","b1":"false","b2":"true","b3":"false","h1":"false","h2":"true","h3":"false","g1":"true","g2":"false","w1":"false","w2":"true","w3":"false"}, value: null}
 	};
 	// 現在合戦中か

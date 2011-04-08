@@ -4,7 +4,7 @@
 // bgのオプション
 var op;
 chrome.extension.sendRequest({option: 'def_kind_soldier'}, function(response) {
-	op = response.option;
+	op = JSON.parse(response.option);
 });
 
 $(document).ready(setTimeout( function(){

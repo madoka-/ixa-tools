@@ -22,13 +22,18 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["http://*.sengokuixa.jp/card/deck.php"],
-			"js": ["js/deck.js"],
+			"matches": ["http://*.sengokuixa.jp/card/deck.php*"],
+			"js": ["js/deck.js", "js/shownum.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["http://*.sengokuixa.jp/facility/set_unit_list.php*"],
 			"css": ["html/facility.css"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/facility/unit_status.php*"],
+			"js": ["js/shownum.js"],
 			"run_at": "document_end"
 		},
 		{
