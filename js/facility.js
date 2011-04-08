@@ -2,12 +2,12 @@
 // sendRequestに対するレスポンスが遅いので仕方なくsetTimeoutを使っている
 
 // bgのオプション
-var op;
+var op = null;
 chrome.extension.sendRequest({option: 'def_kind_soldier'}, function(response) {
-	op = JSON.parse(response.option);
+	op = response.option;
 });
 
-$(document).ready(setTimeout( function(){
+$(document).ready(setTimeout(function() {
 	// 施設名を調べる
 	var name = $('div.ig_tilesection_detailarea > H3:eq(0) > A').text();
 	// 訓練施設
@@ -29,6 +29,7 @@ $(document).ready(setTimeout( function(){
 		}
 		$('div.ig_tilesection_mid:eq(1)').html(html);
 	}
+	console.log(op);
 }, 1000));
 
 function change_facility_html(op, type) {
