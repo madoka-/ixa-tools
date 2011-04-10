@@ -4,6 +4,7 @@
 	"description": "戦国IXAを使いやすくする為のツール",
 	"permissions": [
 		"tabs",
+		"contextMenus",
 		"http://*.sengokuixa.jp/*"
 	],
 	"icons": {
@@ -37,12 +38,17 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["http://*.sengokuixa.jp/facility/unit_list.php*"],
+			"js": ["js/shownum.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["http://*.sengokuixa.jp/facility/facility.php*"],
 			"js": ["js/facility.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["http://*.sengokuixa.jp/facility/dungeon.php"],
+			"matches": ["http://*.sengokuixa.jp/facility/dungeon.php*"],
 			"js": ["js/dungeon.js"],
 			"run_at": "document_end"
 		},

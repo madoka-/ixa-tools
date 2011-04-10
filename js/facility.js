@@ -7,30 +7,43 @@ chrome.extension.sendRequest({option: 'def_kind_soldier'}, function(response) {
 	op = response.option;
 });
 
-$(document).ready(setTimeout(function() {
+$(document).ready(function() {
 	// 施設名を調べる
 	var name = $('div.ig_tilesection_detailarea > H3:eq(0) > A').text();
 	// 訓練施設
 	if (name == '厩舎' || name ==  '足軽兵舎' || name ==  '弓兵舎' || name ==  '兵器鍛冶') {
 		var html;
-		switch (name) {
-			case '足軽兵舎':
-				html = change_facility_html(op, 's');
-			break;
-			case '弓兵舎':
-				html = change_facility_html(op, 'b');
-			break;
-			case '厩舎':
-				html = change_facility_html(op, 'h');
-			break;
-			case '兵器鍛冶':
-				html = change_facility_html(op, 'w');
-			break;
+		var lop = null;
+		if (localStorage.def_kind_soldier) {
+			lop = JSON.parse(localStorage.def_kind_soldier);
+			switch (name) {
+				case '足軽兵舎':
+					html = change_facility_html(lop, 's');
+				break;
+				case '弓兵舎':
+					html = change_facility_html(lop, 'b');
+				break;
+				case '厩舎':
+					html = change_facility_html(lop, 'h');
+				break;
+				case '兵器鍛冶':
+					html = change_facility_html(lop, 'w');
+				break;
+			}
+			$('div.ig_tilesection_mid:eq(1)').html(html);
+			if (op != lop && op != null) {
+				localStorage.def_kind_soldier = JSON.stringify(op)
+			}
+		} else {
+			setTimeout(function(){
+				if (op) {
+					localStorage.def_kind_soldier = JSON.stringify(op);
+				}
+			}, 2000);
 		}
-		$('div.ig_tilesection_mid:eq(1)').html(html);
 	}
-	console.log(op);
-}, 1000));
+	//console.log(lop);
+});
 
 function change_facility_html(op, type) {
 	var html = {};

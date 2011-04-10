@@ -2,8 +2,7 @@
 // backgroundのDOMを読み込んで現在の設定を確認後、htmlを生成する
 //
 // todo
-// def_kind_soldier当たりのhtmlやcssのブラッシュアップ
-// できればただのオプションの羅列では無くタブメニューっぽい構成に
+//
 var bg = chrome.extension.getBackgroundPage();
 var co = bg.conf;
 

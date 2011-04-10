@@ -9,7 +9,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
 		if (request.option) {
-			var res = conf.option[request.option].value;
+			var res = conf.option[request.option]['value'];
 		}
 		sendResponse({option: res});
 	}
