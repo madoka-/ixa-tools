@@ -26,8 +26,10 @@ if (location.hostname.match(/w\d+\.sengokuixa\.jp/)) {
 			var $temp = $('dt:contains("自軍")').addClass("a_black").wrapInner('<strong><a href="/facility/set_unit_list.php?show_num=100"></a></strong>');
 			$temp.next().addClass("a_black").wrapInner('<a href="/facility/unit_status.php?dmo=all"></a>');
 		}
-		// 合戦の画像を差し替え <img src="http://cache.sengokuixa.jp/world/20110208-01/img/glovalnavi/gnavi_blink_battle.gif">
-		var img = chrome.extension.getURL("images/gnavi_blink_battle.png");
-		$('img[src*="gnavi_blink_battle.gif"]').attr("src", img);
+		// 合戦の画像を差し替え
+		var img = chrome.extension.getURL('images/gnavi_blink_battle.png');
+		$('img[src*="gnavi_blink_battle.gif"]').attr('src', img);
+		// チャット履歴のリンクを本当に履歴へ結びつける
+		$('div.commentbtn2 > a[href="/bbs/topic_view.php"]').attr('href', '/alliance/chat_view.php');
 	}
 }

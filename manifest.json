@@ -58,8 +58,23 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["http://*.sengokuixa.jp/war/*"],
+			"matches": ["http://*.sengokuixa.jp/message/inbox.php*"],
+			"js": ["js/inbox.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/message/detail.php*"],
+			"js": ["js/detail.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/war/war_situation.php*"],
 			"css": ["html/war.css"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/war/list.php*"],
+			"js": ["js/list.js"],
 			"run_at": "document_end"
 		}
 	],
