@@ -8,7 +8,7 @@
 
 if (location.hostname.match(/w\d+\.sengokuixa\.jp/)) {
 	// ほぼ毎回読み込み
-	if (location.pathname != '/user/farst_login.php') {
+	if (location.pathname != '/user/farst_login.php' || location.pathname.match(/\/tutorial.*$/)) {
 		// 状態と拠点と生産の並べ替え
 		var $sidebottom = $('#sideboxBottom');
 		var $seisan_div = $sidebottom.find('div.sideBox:eq(0)').addClass('last');

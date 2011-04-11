@@ -5,6 +5,7 @@
 	"permissions": [
 		"tabs",
 		"contextMenus",
+		"notifications",
 		"http://*.sengokuixa.jp/*"
 	],
 	"icons": {
@@ -19,7 +20,7 @@
 		{
 			"matches": ["http://*.sengokuixa.jp/*"],
 			"css": ["html/common.css", "html/sidebox.css"],
-			"js": ["js/jquery.js", "js/common.js", "js/sidebox.js"],
+			"js": ["js/jquery.js", "js/common.js", "js/sidebox.js", "js/notify.js", "js/jquery.jwNotify.js"],
 			"run_at": "document_end"
 		},
 		{
