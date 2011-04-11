@@ -18,7 +18,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*.sengokuixa.jp/*"],
-			"css": ["html/common.css"],
+			"css": ["html/common.css", "html/sidebox.css"],
 			"js": ["js/jquery.js", "js/common.js", "js/sidebox.js"],
 			"run_at": "document_end"
 		},
@@ -75,6 +75,11 @@
 		{
 			"matches": ["http://*.sengokuixa.jp/war/list.php*"],
 			"js": ["js/list.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://*.sengokuixa.jp/land.php*"],
+			"js": ["js/land.js"],
 			"run_at": "document_end"
 		}
 	],
