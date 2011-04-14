@@ -5,19 +5,22 @@
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
 		if (request.name == 'limit'){
-			sendResponse({});
 			// タイムアウト時間の予想と通知
-			var limit = parseInt(limit.time);
+			//console.log(request);
+			var limit = parseInt(request.time);
 			localStorage.tools_limittime = limit;
-			if (limit < (30 * 60)) {
-				var time = new Date(limit);
+			var time = new Date();
+			if ((limit - time.getTime()) < (30 * 60)) {
+				var limit_unixtime = time.getTime() + limit;
+				var a = new Date(limit_unixtime);
 				$.jwNotify({
 					image : chrome.extension.getURL('images/favicon128.png'),
 					title: 'タイムアウト予想時間',
-					body: time.toLocalString(),
+					body: a.toLocaleString(),
 					timeout: 20000
 				});
 			}
+			sendResponse({});
 		}
 	}
 );
