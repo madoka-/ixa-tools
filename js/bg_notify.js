@@ -9,10 +9,11 @@ chrome.extension.onRequest.addListener(
 			//console.log(request);
 			var limit = parseInt(request.time);
 			localStorage.tools_limittime = limit;
-			var time = new Date();
-			if ((limit - time.getTime()) < (30 * 60)) {
-				var limit_unixtime = time.getTime() + limit;
-				var a = new Date(limit_unixtime);
+			var time = getUnixTime();
+			if (parseInt(limit - time) < (30 * 60)) {
+				var a = new Date();
+				a.setTime(limit);
+				console.log(a.getTime(), limit);
 				$.jwNotify({
 					image : chrome.extension.getURL('images/favicon128.png'),
 					title: 'タイムアウト予想時間',
@@ -24,3 +25,10 @@ chrome.extension.onRequest.addListener(
 		}
 	}
 );
+
+// functions
+function getUnixTime() {
+	var a = new Date();
+	var m = a.getMilliseconds();
+	return (a.getTime() - m) / 1000;
+}
