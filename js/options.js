@@ -20,7 +20,7 @@ function restore_options() {
 		switch(co['option'][i]['tag']){
 			case 'hidden': break;
 			case 'deck':
-				if(flag != 'deck'){
+				if(flag != 'all'){
 					flag = 'deck';
 					html += '<hr />';
 				}

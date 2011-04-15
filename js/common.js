@@ -19,6 +19,7 @@ $(document).ready(function(){
 		document.cookie = 'tools_st=' + getUnixTime() + '; domain=.sengokuixa.jp; path=/;';
 	} else if (getCookie('tools_st') !== null) {
 		localStorage.tools_starttime = getCookie('tools_st');
+		localStorage.tools_sendtime = '';
 		document.cookie = 'tools_st=0; expires=Fri, 31-Dec-1999 23:59:59 GMT; domain=.sengokuixa.jp; path=/;';
 	}
 });

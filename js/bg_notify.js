@@ -12,14 +12,17 @@ chrome.extension.onRequest.addListener(
 			var time = getUnixTime();
 			if (parseInt(limit - time) < (30 * 60)) {
 				var a = new Date();
+				var now = new Date();
 				a.setTime(limit*1000);
 				//console.log(a.getTime(), limit);
-				$.jwNotify({
-					image : chrome.extension.getURL('images/favicon128.png'),
-					title: 'タイムアウト予想時間',
-					body: a.toLocaleString(),
-					timeout: 30000
-				});
+				if (a.getTime() > now.getTime()) {
+					$.jwNotify({
+						image : chrome.extension.getURL('images/favicon128.png'),
+						title: 'タイムアウト予想時間',
+						body: a.toLocaleString(),
+						timeout: 30000
+					});
+				}
 			}
 			sendResponse({});
 		}
