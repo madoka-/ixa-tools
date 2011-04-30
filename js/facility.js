@@ -9,7 +9,7 @@ chrome.extension.sendRequest({option: 'def_kind_soldier'}, function(response) {
 
 $(document).ready(function() {
 	// 施設名を調べる
-	var name = $('div.ig_tilesection_detailarea > H3:eq(0) > A').text();
+	var name = $('div.ig_tilesection_detailarea > H3:eq(0) > a').text();
 	// 訓練施設
 	if (name == '厩舎' || name ==  '足軽兵舎' || name ==  '弓兵舎' || name ==  '兵器鍛冶') {
 		var html;
@@ -41,43 +41,47 @@ $(document).ready(function() {
 				}
 			}, 2000);
 		}
-	}/* else if (name == '市') {
+	} else if (name == '市') {
 		var wood = parseInt($('#wood').text());
 		var stone = parseInt($('#stone').text());
 		var iron = parseInt($('#iron').text());
 		var rice = parseInt($('#rice').text());
-		var rate = parseInt($('DIV.ig_tilesection_detailarea IMG[alt="取引相場"]').parent().next().find('SPAN').text().substring(0, 2))/100;
-
-		var tmp = '<TABLE style="background-color:#F3F2DE;" class="common_table1 center"><TR><TH>兵士</TH><TH>不足</TH><TH>過剰</TH><TH>作成可能</TH></TR>';
-		for(var key in soldiertype) {
-			var moko = maxsoldier(wood, stone, iron, rice, soldiertype[key][0], soldiertype[key][1], soldiertype[key][2], soldiertype[key][3], rate);
-			if (moko.maxsoldier<100) {
-				tmp += '<TR><TD>'+key+'</TD><TD>-</TD><TD>-</TD><TD>100未満</TD></TR>';
+		var rate = parseInt($('div.ig_tilesection_detailarea img[alt="取引相場"]').parent().next().find('span').text().substring(0, 2))/100;
+		var tmp = '<table style="background-color:#f3f2de;" class="common_table1 center"><tr><th>兵士</th><th>不足</th><th>過剰</th><th>作成可能</th></tr>';
+		var op = JSON.parse(localStorage.def_kind_soldier);
+/*		if (op) {
+			var obj = maxsoldier(wood, stone, iron, rice,  rate, op);
+			if (obj.maxsoldier < 100) {
+				tmp += '<tr><td>'+key+'</td><td>-</td><td>-</td><td>100未満</td></tr>';
 			} else {
-				tmp += '<TR><TD>'+key+'</TD><TD>'+moko.shortage+'</TD><TD>'+moko.excess+'</TD><TD>'+moko.maxsoldier+'</TD></TR>';
+				tmp += '<tr><td>'+key+'</td><td>'+obj.shortage+'</td><td>'+obj.excess+'</td><td>'+obj.maxsoldier+'</td></tr>';
 			}
 		}
-		tmp += '</TABLE>';
-		$('IMG[alt="市での取引"]').after(tmp);
-		$('SPAN.ixamoko_short').hover(function() {
+*/		tmp += '</table>';
+		$('img[alt="市での取引"]').after(tmp);
+		$('span.sol_short').hover(function() {
 			$(this).css({backgroundColor:'#afa', textDecoration:'underline'});
 		}, function() {
 			$(this).css({backgroundColor:'', textDecoration:''});
 		}).click(function(e) {
 			var $this = $(this);
 			$('#select2').val($this.attr('type'));
-			if ($('#tc').val()=='') $('#tc').val($this.attr('value'));
+			if ($('#tc').val() == '') {$('#tc').val($this.attr('value'));}
 		});
-		$('SPAN.ixamoko_excess').hover(function() {
+		$('span.sol_excess').hover(function() {
 			$(this).css({backgroundColor:'#afa', textDecoration:'underline'});
 		}, function() {
 			$(this).css({backgroundColor:'', textDecoration:''});
 		}).click(function(e) {
 			var $this = $(this);
 			$('#select').val($this.attr('type'));
-			if ($('#tc').val()=='') $('#tc').val($this.attr('value'));
+			if ($('#tc').val() == '') {$('#tc').val($this.attr('value'));}
 		});
-	}*/
+	}
+	// send_troop 表示のfix<span id="area_up_timer0">2011-04-19 07:20:14</span>
+	if ($('span#area_up_timer0')) {
+		$('span#area_up_timer0').css('font-size', '80%');
+	}
 	//console.log(lop);
 });
 
@@ -167,7 +171,7 @@ function change_facility_html(op, type) {
 							content += html[element];
 						}
 						break;
-					case '	騎馬鉄砲':
+					case '騎馬鉄砲':
 						if (op.g2 == 'true') {
 							content += html[element];
 						}
@@ -193,89 +197,118 @@ function change_facility_html(op, type) {
 	}
 	return content;
 }
-
-function maxsoldier(a, b, c, d, aa, bb, cc, dd, rate) {
-	var cmax = 1500000;
-	if ((a/aa)<cmax) cmax = Math.floor(a/aa);
-	if ((b/bb)<cmax) cmax = Math.floor(b/bb);
-	if ((c/cc)<cmax) cmax = Math.floor(c/cc);
-	if ((d/dd)<cmax) cmax = Math.floor(d/dd);
-	var i;
-	for(i=(cmax+1);i<15000;++i) {
-		var shortage = 0;
-		var excess = 0;
-		if ((i*aa)>a) {
-			shortage += i*aa-a;
-		} else {
-			excess += a-i*aa;
+// maxsoldier(wood, stone, iron, rice,  rate, op)
+function maxsoldier(wood, stone, iron, rice, rate, op) {
+	var sol = {
+		s1: { name: '足軽', cost: [9, 14, 5, 5]},
+		s2: { name: '長槍足軽', cost: [14, 20, 7, 8]},
+		s3: { name: '武士', cost: [18, 27, 9, 11]},
+		b1: { name: '弓足軽', cost: [14, 9, 5, 5]},
+		b2: { name: '長弓兵', cost: [20, 14, 8, 7]},
+		b3: { name: '弓騎馬', cost: [27, 18, 11, 9]},
+		h1: { name: '騎馬兵', cost: [5, 5, 9, 14]},
+		h2: { name: '精鋭騎馬', cost: [7, 8, 14, 20]},
+		h3: { name: '赤備え', cost: [9, 11, 18, 27]},
+		g1: { name: '鉄砲足軽', cost: [72, 67, 90, 75]},
+		g2: { name: '鉄砲騎馬', cost: [67, 90, 72, 75]},
+		w1: { name: '破城鎚', cost: [14, 7, 11, 9]},
+		w2: { name: '攻城櫓', cost: [22, 16, 11, 14]},
+		w3: { name: '大筒兵', cost: [69, 81, 108, 45]}
+	};
+	// 表示する兵種を選択
+	var a = new Array();
+	var b = 0;
+	for (var c in sol) {
+		if (op[c] == true) {
+			a[b] = c;
+			b++;
 		}
-		if ((i*bb)>b) {
-			shortage += i*bb-b;
-		} else {
-			excess += b-i*bb;
+	}
+	// htmlの生成
+	a.forEach(function(item){
+		var c = sol[item]['cost'];
+		var cmax = 1500000;
+		var i = 0;
+		if ((wood / c[0]) < cmax) cmax = Math.floor(wood / c[0]);
+		if ((stone / c[1]) < cmax) cmax = Math.floor(stone / c[1]);
+		if ((iron / c[2]) < cmax) cmax = Math.floor(iron / c[2]);
+		if ((rice / c[3]) < cmax) cmax = Math.floor(rice / c[3]);
+		for (i = (cmax + 1); i < 15000; i++) {
+			var shortage = 0;
+			var excess = 0;
+			if ((i * c[0]) > wood) {
+				shortage += i * c[0] - wood;
+			} else {
+				excess += wood - i * c[0];
+			}
+			if ((i * c[1]) > stone) {
+				shortage += i * c[1] - stone;
+			} else {
+				excess += stone - i * c[1];
+			}
+			if ((i * c[2]) > iron) {
+				shortage += i * c[2] - iron;
+			} else {
+				excess += iron - i * c[2];
+			}
+			if ((i * c[3]) > rice) {
+				shortage += i * c[3] - rice;
+			} else {
+				excess += rice - i * c[3];
+			}
+			if (excess * rate < shortage) break;
 		}
-		if ((i*cc)>c) {
-			shortage += i*cc-c;
+		i--;
+		var tmp1 = '[必要 ';
+		var tmp1c = 0;
+		var tmp1t = null;
+		var tmp2 = '[余剰 ';
+		if ((i * c[0]) < wood) {
+			var tmpx = (wood - i * c[0]);
+			tmp2 += ' <span class="ixamoko_excess" type="101" value="'+tmpx+'">木: '+tmpx+'</span>';
 		} else {
-			excess += c-i*cc;
+			var tmpx = Math.ceil((i * c[0] - wood) / rate);
+			tmp1 += ' <span class="ixamoko_short" type="101" value="'+tmpx+'">木: '+tmpx+'</span>'
+			tmp1c++;
+			tmp1t = 101;
 		}
-		if ((i*dd)>d) {
-			shortage += i*dd-d;
+		if ((i * c[1]) < b) {
+			var tmpx = (stone - i * c[1]);
+			tmp2 += ' <span class="ixamoko_excess" type="102" value="'+tmpx+'">綿: '+tmpx+'</span>';
 		} else {
-			excess += d-i*dd;
+			var tmpx = Math.ceil((i * c[1] - stone) / rate);
+			tmp1 += ' <span class="ixamoko_short" type="102" value="'+tmpx+'">綿: '+tmpx+'</span>';
+			tmp1c++;
+			tmp1t = 102;
 		}
-		if (excess*rate<shortage) break;
-	}
-	--i;
-	var tmp1 = '[必要 ';
-	var tmp1c = 0;
-	var tmp1t = null;
-	var tmp2 = '[余剰 ';
-	if ((i*aa)<a) {
-		var tmpx = (a-i*aa);
-		tmp2 += ' <SPAN class="ixamoko_excess" type="101" value="'+tmpx+'">木: '+tmpx+'</SPAN>';
-	} else {
-	var tmpx = Math.ceil((i*aa-a)/rate);
-		tmp1 += ' <SPAN class="ixamoko_short" type="101" value="'+tmpx+'">木: '+tmpx+'</SPAN>'
-		++tmp1c;
-		tmp1t = 101;
-	}
-	if ((i*bb)<b) {
-		var tmpx = (b-i*bb);
-		tmp2 += ' <SPAN class="ixamoko_excess" type="102" value="'+tmpx+'">綿: '+tmpx+'</SPAN>';
-	} else {
-	var tmpx = Math.ceil((i*bb-b)/rate);
-		tmp1 += ' <SPAN class="ixamoko_short" type="102" value="'+tmpx+'">綿: '+tmpx+'</SPAN>';
-		++tmp1c;
-		tmp1t = 102;
-	}
-	if ((i*cc)<c) {
-		var tmpx = (c-i*cc);
-		tmp2 += ' <SPAN class="ixamoko_excess" type="103" value="'+tmpx+'">鉄: '+tmpx+'</SPAN>';
-	} else {
-	var tmpx = Math.ceil((i*cc-c)/rate);
-		tmp1 += ' <SPAN class="ixamoko_short" type="103" value="'+tmpx+'">鉄: '+tmpx+'</SPAN>';
-		++tmp1c;
-		tmp1t = 103;
-	}
-	if ((i*dd)<d) {
-		var tmpx = (d-i*dd);
-		tmp2 += ' <SPAN class="ixamoko_excess" type="104" value="'+tmpx+'">糧: '+tmpx+'</SPAN>';
-	} else {
-		var tmpx = Math.ceil((i*dd-d)/rate);
-		tmp1 += ' <SPAN class="ixamoko_short" type="104" value="'+tmpx+'">糧: '+tmpx+'</SPAN>';
-		++tmp1c;
-		tmp1t = 104;
-	}
-	tmp1 += ']';
-	tmp2 += ']';
-	var moko = {
-		shortage: tmp1,
-		excess: tmp2,
-		maxsoldier: i,
-		shortc: tmp1c,
-		shortt: tmp1t
-	}
+		if ((i * c[2]) < iron) {
+			var tmpx = (iron - i * c[2]);
+			tmp2 += ' <span class="ixamoko_excess" type="103" value="'+tmpx+'">鉄: '+tmpx+'</span>';
+		} else {
+			var tmpx = Math.ceil((i * c[2] - iron) / rate);
+			tmp1 += ' <span class="ixamoko_short" type="103" value="'+tmpx+'">鉄: '+tmpx+'</span>';
+			tmp1c++;
+			tmp1t = 103;
+		}
+		if ((i * dd) < rice) {
+			var tmpx = (rice - i * dd);
+			tmp2 += ' <span class="ixamoko_excess" type="104" value="'+tmpx+'">糧: '+tmpx+'</span>';
+		} else {
+			var tmpx = Math.ceil((i * dd - rice) / rate);
+			tmp1 += ' <span class="ixamoko_short" type="104" value="'+tmpx+'">糧: '+tmpx+'</span>';
+			tmp1c++;
+			tmp1t = 104;
+		}
+		tmp1 += ']';
+		tmp2 += ']';
+		var moko = {
+			shortage: tmp1,
+			excess: tmp2,
+			maxsoldier: i,
+			shortc: tmp1c,
+			shortt: tmp1t
+		}
+	});
 	return moko;
 }
 
